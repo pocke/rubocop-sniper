@@ -5,7 +5,7 @@ require 'rubocop/sniper/version'
 
 Gem::Specification.new do |spec|
   spec.name          = "rubocop-sniper"
-  spec.version       = Rubocop::Sniper::VERSION
+  spec.version       = RuboCop::Sniper::VERSION
   spec.authors       = ["Masataka Kuwabara"]
   spec.email         = ["p.ck.t22@gmail.com"]
 
