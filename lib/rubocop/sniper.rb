@@ -15,14 +15,33 @@ module RuboCop
 
     module Util
       def self.sniped?(location)
-        positions = JSON.parse(ENV['RUBOCOP_SNIPER_POSITIONS'])
-        positions.any? do |position|
-          line, column = *position
-          location.begin.line <= line &&
-            line <= location.end.line &&
-            location.begin.column <= column &&
-            column <= location.end.column
+        # [
+        #   {
+        #     file: "path/to/file.rb",
+        #     line: [1, 2],
+        #     column: [3, 4]
+        #   }
+        # ]
+        positions = JSON.parse(ENV['RUBOCOP_SNIPER_POSITIONS'], symbolize_names: true)
+        positions.each do |position|
+          first, last = *position[:line]
+          position[:line] = first..last
+          first, last = *position[:column]
+          position[:column] = first..last
         end
+
+        positions.any? do |position|
+          # TODO: check filename
+
+          overlap?(position[:line], location.begin.line..location.end.line) &&
+            overlap?(position[:column], location.begin.column..location.end.column)
+        end
+      end
+
+      private_class_method
+
+      def self.overlap?(range1, range2)
+        range2.first <= range1.last && range1.first <= range2.last
       end
     end
 
