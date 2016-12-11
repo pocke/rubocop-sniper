@@ -4,7 +4,6 @@ require "rubocop/sniper/version"
 
 module RuboCop
   module Sniper
-    # Mokey-patch add_offense method
     module MonkeyPatchAddOffense
       def add_offense(node, loc, message = nil, severity = nil)
         location = find_location(node, loc)

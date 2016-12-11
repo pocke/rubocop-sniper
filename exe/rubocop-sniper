@@ -3,6 +3,8 @@
 require 'rubocop'
 require 'rubocop/sniper'
 
-cli = RuboCop::CLI.new
+argv = ARGV + %w[-a --cache false]
+
+cli = RuboCop::CLI.new(argv)
 
 exit cli.run
